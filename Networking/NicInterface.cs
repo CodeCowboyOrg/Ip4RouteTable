@@ -30,7 +30,17 @@ namespace Networking
                     na.PrimaryIpAddress = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork).First().Address;
                     na.SubnetMask = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork).First().IPv4Mask;
                     if (properties.GatewayAddresses.Count > 0)
-                        na.PrimaryGateway = properties.GatewayAddresses.Where(i => i != null && i.Address != null).First().Address;
+                    {
+                        na.PrimaryGateway = null;
+                        foreach (GatewayIPAddressInformation gatewayInfo in properties.GatewayAddresses)
+                        {
+                            if (gatewayInfo.Address != null && gatewayInfo.Address.AddressFamily == AddressFamily.InterNetwork)
+                            {
+                                na.PrimaryGateway = gatewayInfo.Address;
+                                break;
+                            }
+                        }
+                    }
                     else
                     {
                         //if the gateways on the Network adaptor properties is null, then get it from the routing table
@@ -66,7 +76,17 @@ namespace Networking
                 na.PrimaryIpAddress = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork).First().Address;
                 na.SubnetMask = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork).First().IPv4Mask;
                 if (properties.GatewayAddresses.Count > 0)
-                    na.PrimaryGateway = properties.GatewayAddresses.Where(i => i != null && i.Address != null).First().Address;
+                {
+                    na.PrimaryGateway = null;
+                    foreach (GatewayIPAddressInformation gatewayInfo in properties.GatewayAddresses)
+                    {
+                        if (gatewayInfo.Address != null && gatewayInfo.Address.AddressFamily == AddressFamily.InterNetwork)
+                        {
+                            na.PrimaryGateway = gatewayInfo.Address;
+                            break;
+                        }
+                    }
+                }
                 else
                 {
                     //if the gateways on the Network adaptor properties is null, then get it from the routing table

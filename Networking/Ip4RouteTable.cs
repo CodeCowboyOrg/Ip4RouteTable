@@ -131,6 +131,14 @@ namespace Networking
         }
 
 
+        public static bool RouteExists(string destinationIP)
+        {
+            List<Ip4RouteEntry> routeTable = Ip4RouteTable.GetRouteTable();
+            Ip4RouteEntry routeEntry = routeTable.Find(i => i.DestinationIP.ToString().Equals(destinationIP));
+            return (routeEntry != null);
+        }
+
+
         public static void CreateRoute(Ip4RouteEntry routeEntry)
         {
 
