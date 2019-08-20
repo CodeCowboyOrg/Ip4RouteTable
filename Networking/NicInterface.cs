@@ -19,17 +19,32 @@ namespace Networking
             foreach (NetworkInterface adapter in nics)
             {
                 IPInterfaceProperties properties = adapter.GetIPProperties();
+                IPv4InterfaceProperties ip4Properties = properties.GetIPv4Properties();
                 if (properties.GetIPv4Properties().Index == interfaceIndex)
                 {
                     na = new NetworkAdaptor();
                     na.Name = adapter.Name;
                     na.Description = adapter.Description;
                     na.MACAddress = adapter.GetPhysicalAddress().ToString();
+                    na.InterfaceIndex = ip4Properties.Index;
                     na.PrimaryIpAddress = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork).First().Address;
                     na.SubnetMask = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork).First().IPv4Mask;
                     if (properties.GatewayAddresses.Count > 0)
                         na.PrimaryGateway = properties.GatewayAddresses.Where(i => i != null && i.Address != null).First().Address;
+                    else
+                    {
+                        //if the gateways on the Network adaptor properties is null, then get it from the routing table
+                        List<Ip4RouteEntry> routeTable = Ip4RouteTable.GetRouteTable();
+                        if (routeTable.Where(i => i.InterfaceIndex == na.InterfaceIndex).Count() > 0)
+                        {
+                            na.PrimaryGateway = routeTable.Where(i => i.InterfaceIndex == na.InterfaceIndex).First().GatewayIP;
 
+                        }
+                    }
+                    if (na.PrimaryGateway == null && properties.DhcpServerAddresses.Count > 0)
+                    {
+                        na.PrimaryGateway = properties.DhcpServerAddresses.First();
+                    }
                 }
             }
             return na;
@@ -42,16 +57,30 @@ namespace Networking
             foreach (NetworkInterface adapter in nics)
             {
                 IPInterfaceProperties properties = adapter.GetIPProperties();
+                IPv4InterfaceProperties ip4Properties = properties.GetIPv4Properties();
                 NetworkAdaptor na = new NetworkAdaptor();
                 na.Name = adapter.Name;
                 na.Description = adapter.Description;
                 na.MACAddress = adapter.GetPhysicalAddress().ToString();
-                na.InterfaceIndex = properties.GetIPv4Properties().Index;
+                na.InterfaceIndex = ip4Properties.Index;
                 na.PrimaryIpAddress = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork).First().Address;
                 na.SubnetMask = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork).First().IPv4Mask;
                 if (properties.GatewayAddresses.Count > 0)
                     na.PrimaryGateway = properties.GatewayAddresses.Where(i => i != null && i.Address != null).First().Address;
-
+                else
+                {
+                    //if the gateways on the Network adaptor properties is null, then get it from the routing table
+                    List<Ip4RouteEntry> routeTable = Ip4RouteTable.GetRouteTable();
+                    if (routeTable.Where(i => i.InterfaceIndex == na.InterfaceIndex).Count() > 0)
+                    {
+                        na.PrimaryGateway = routeTable.Where(i => i.InterfaceIndex == na.InterfaceIndex).First().GatewayIP;
+                        
+                    }
+                }
+                if (na.PrimaryGateway == null && properties.DhcpServerAddresses.Count > 0)
+                {
+                    na.PrimaryGateway = properties.DhcpServerAddresses.First();
+                }
                 naList.Add(na);
             }
             return naList;

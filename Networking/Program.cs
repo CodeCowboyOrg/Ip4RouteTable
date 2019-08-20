@@ -21,7 +21,7 @@ namespace Networking
                 Ip4RouteTable.RoutePrint();
 
                 //Demostrate Deleting routes and Adding routes
-                int interfaceIndex = 42; // Int32.Parse(args[0]);
+                int interfaceIndex = 22; // Int32.Parse(args[0]);
                 NetworkAdaptor na = NicInterface.GetNetworkAdaptor(interfaceIndex);
                 if (na != null && na.PrimaryGateway.Address.ToString().Length > 0)
                 {
@@ -29,9 +29,9 @@ namespace Networking
                     Ip4RouteTable.CreateRoute("202.0.0.0", "255.0.0.0", interfaceIndex, 100);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
          
