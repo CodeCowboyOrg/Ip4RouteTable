@@ -43,7 +43,7 @@ namespace NetworkRoute
                     }
                     else
                     {
-                        //if the gateways on the Network adaptor properties is null, then get it from the routing table
+                        //if the gateways on the Network adaptor properties is null, then get it from the routing table, especially the case for VPN routers
                         List<Ip4RouteEntry> routeTable = Ip4RouteTable.GetRouteTable();
                         if (routeTable.Where(i => i.InterfaceIndex == na.InterfaceIndex).Count() > 0)
                         {
@@ -51,6 +51,8 @@ namespace NetworkRoute
 
                         }
                     }
+                    //not ideal and incorrect, but hopefully it doesn't execute this as the gateways are defined elsewhere
+                    //the correct way is to locate the primary gateway in some other property other than the 3 methods here
                     if (na.PrimaryGateway == null && properties.DhcpServerAddresses.Count > 0)
                     {
                         na.PrimaryGateway = properties.DhcpServerAddresses.First();
