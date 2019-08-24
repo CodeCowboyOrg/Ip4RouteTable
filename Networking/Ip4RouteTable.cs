@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Net;
 using System.Collections.Generic;
 
-namespace Networking
+namespace NetworkRoute
 {
     public class Ip4RouteTable
     {
@@ -139,6 +139,22 @@ namespace Networking
         }
 
 
+        public static List<Ip4RouteEntry> GetRouteEntry(string destinationIP)
+        {
+            List<Ip4RouteEntry> routeTable = Ip4RouteTable.GetRouteTable();
+            List<Ip4RouteEntry> routeMatches = routeTable.FindAll(i => i.DestinationIP.ToString().Equals(destinationIP));
+            return routeMatches;
+        }
+
+
+        public static List<Ip4RouteEntry> GetRouteEntry(string destinationIP, string mask)
+        {
+            List<Ip4RouteEntry> routeTable = Ip4RouteTable.GetRouteTable();
+            List<Ip4RouteEntry> routeMatches = routeTable.FindAll(i => i.DestinationIP.ToString().Equals(destinationIP) && i.SubnetMask.ToString().Equals(mask));
+            return routeMatches;
+        }
+
+
         public static void CreateRoute(Ip4RouteEntry routeEntry)
         {
 
@@ -222,6 +238,31 @@ namespace Networking
             }
 
         }
+
+        public static void DeleteRoute(string destinationIP)
+        {
+
+            List<Ip4RouteEntry> routeMatches = Ip4RouteTable.GetRouteEntry(destinationIP);
+            if (routeMatches == null) return;
+
+            foreach (Ip4RouteEntry routeEntry in routeMatches)
+            {
+                DeleteRoute(routeEntry);
+            }
+        }
+
+        public static void DeleteRoute(string destinationIP, string mask)
+        {
+
+            List<Ip4RouteEntry> routeMatches = Ip4RouteTable.GetRouteEntry(destinationIP, mask);
+            if (routeMatches == null) return;
+
+            foreach (Ip4RouteEntry routeEntry in routeMatches)
+            {
+                DeleteRoute(routeEntry);
+            }
+        }
+
 
         public static void DeleteRoute(int interfaceIndex)
         {

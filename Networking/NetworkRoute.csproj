@@ -7,8 +7,8 @@
     <ProjectGuid>{58B046CC-9CB1-4B50-805E-31CA6C38AA46}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Networking</RootNamespace>
-    <AssemblyName>Networking</AssemblyName>
+    <RootNamespace>NetworkRoute</RootNamespace>
+    <AssemblyName>NetworkRoute</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
