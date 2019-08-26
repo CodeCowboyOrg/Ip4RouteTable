@@ -310,7 +310,7 @@ namespace NetworkRoute
             internal uint /*DWORD*/ dwForwardMetric5;
         };
 
-        public enum MIB_IPFORWARD_TYPE
+        public enum MIB_IPFORWARD_TYPE : uint
         {
             MIB_IPROUTE_TYPE_OTHER = 1,
             MIB_IPROUTE_TYPE_INVALID = 2,
@@ -320,7 +320,7 @@ namespace NetworkRoute
 
 
 
-        public enum MIB_IPFORWARD_PROTO
+        public enum MIB_IPFORWARD_PROTO : uint
         {
             MIB_IPPROTO_OTHER = 1,
             MIB_IPPROTO_LOCAL = 2,

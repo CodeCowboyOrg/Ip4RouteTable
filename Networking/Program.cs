@@ -28,7 +28,7 @@ namespace NetworkRoute
                 //Demostrate Deleting routes and Adding routes
 
                 NetworkAdaptor na = NicInterface.GetNetworkAdaptor(interfaceIndex);
-                if (na != null && na.PrimaryGateway.Address.ToString().Length > 0)
+                if (na != null && na.PrimaryGateway.ToString().Length > 0)
                 {
                     Console.WriteLine("Deleting VPN routes and adding new route.");
                     Ip4RouteTable.DeleteRoute(interfaceIndex);
