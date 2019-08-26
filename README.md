@@ -19,7 +19,7 @@ Mimicking the functionality of "route add" and "route delete" in C#
                 if (na != null && na.PrimaryGateway.Address.ToString().Length > 0)
                 {
                     Ip4RouteTable.DeleteRoute(interfaceIndex);
-                    Ip4RouteTable.DeleteRoute("10.100.0.0);
+                    Ip4RouteTable.DeleteRoute("10.100.0.0");
                     Ip4RouteTable.CreateRoute("202.0.0.0", "255.0.0.0", interfaceIndex, 100);
                 }
             }
