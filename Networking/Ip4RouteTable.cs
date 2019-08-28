@@ -368,5 +368,9 @@ namespace NetworkRoute
 
         [DllImport("iphlpapi", CharSet = CharSet.Auto)]
         public extern static int DeleteIpForwardEntry(IntPtr /*PMIB_IPFORWARDROW*/ pRoute);
+
+        [DllImport("iphlpapi", CharSet = CharSet.Auto)]
+        public extern static int SetIpForwardEntry(IntPtr /*PMIB_IPFORWARDROW*/ pRoute);
+
     }
 }
