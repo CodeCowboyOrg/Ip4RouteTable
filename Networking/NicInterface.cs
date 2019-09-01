@@ -69,12 +69,21 @@ namespace NetworkRoute
             foreach (NetworkInterface adapter in nics)
             {
                 IPInterfaceProperties properties = adapter.GetIPProperties();
-                IPv4InterfaceProperties ip4Properties = properties.GetIPv4Properties();
+                IPv4InterfaceProperties ip4Properties = null;
+                if (!HasIp4Support(adapter))
+                {
+                    continue;
+                }
+                else
+                {
+                    ip4Properties = properties.GetIPv4Properties();
+                }
+
                 NetworkAdaptor na = new NetworkAdaptor();
                 na.Name = adapter.Name;
                 na.Description = adapter.Description;
                 na.MACAddress = adapter.GetPhysicalAddress().ToString();
-                na.InterfaceIndex = ip4Properties.Index;
+                na.InterfaceIndex = ip4Properties != null ? ip4Properties.Index : 0;
                 na.PrimaryIpAddress = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork).First().Address;
                 na.SubnetMask = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork).First().IPv4Mask;
                 if (properties.GatewayAddresses.Count > 0)
@@ -115,6 +124,21 @@ namespace NetworkRoute
             foreach (NetworkAdaptor na in naList)
             {
                 Console.WriteLine("{0,18} {1,18} {2,18} {3,20} {4,6} {5}", na.PrimaryIpAddress, na.SubnetMask, na.PrimaryGateway, na.MACAddress, na.InterfaceIndex, na.Name);
+            }
+        }
+
+        private static bool HasIp4Support(NetworkInterface adapter)
+        {
+            {
+                try
+                {
+                    adapter.GetIPProperties().GetIPv4Properties();
+                    return true;
+                }
+                catch 
+                {
+                    return false;
+                }
             }
         }
 

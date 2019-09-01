@@ -16,7 +16,8 @@ namespace NetworkRoute
             try
             {
                 //Get Parameter
-                int interfaceIndex = Int32.Parse(args[0]);
+                int interfaceIndex = 0;
+                if (args.Count() > 1) interfaceIndex = Int32.Parse(args[0]);
 
                 //Print all the Network adaptors
                 NicInterface.PrintAllNetworkInterface();
@@ -39,6 +40,8 @@ namespace NetworkRoute
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace.ToString());
+                throw;
             }
         }
          
