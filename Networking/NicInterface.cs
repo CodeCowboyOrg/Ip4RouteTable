@@ -19,6 +19,7 @@ namespace NetworkRoute
             foreach (NetworkInterface adapter in nics)
             {
                 IPInterfaceProperties properties = adapter.GetIPProperties();
+                if (!HasIp4Support(adapter)) continue;
                 IPv4InterfaceProperties ip4Properties = properties.GetIPv4Properties();
                 if (properties.GetIPv4Properties().Index == interfaceIndex)
                 {
@@ -57,6 +58,7 @@ namespace NetworkRoute
                     {
                         na.PrimaryGateway = properties.DhcpServerAddresses.First();
                     }
+                    break;
                 }
             }
             return na;
