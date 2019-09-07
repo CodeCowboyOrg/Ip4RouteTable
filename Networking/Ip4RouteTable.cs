@@ -88,6 +88,14 @@ namespace NetworkRoute
         }
 
 
+        public static bool InterfaceIndexExists(int interfaceIndex)
+        {
+            List<Ip4RouteEntry> routeTable = Ip4RouteTable.GetRouteTable();
+            Ip4RouteEntry routeEntry = routeTable.Find(i => i.InterfaceIndex.Equals(interfaceIndex));
+            return (routeEntry != null);
+        }
+
+
         public static bool RouteExists(string destinationIP)
         {
             List<Ip4RouteEntry> routeTable = Ip4RouteTable.GetRouteTable();
@@ -236,11 +244,11 @@ namespace NetworkRoute
             Marshal.FreeHGlobal(fwdTable);
 
 
-
+            uint uIndex = Convert.ToUInt32(interfaceIndex);
             List<Native.MIB_IPFORWARDROW> filtered = new List<Native.MIB_IPFORWARDROW>();
             for (int i = 0; i < forwardTable.Table.Length; ++i)
             {
-                if (Convert.ToInt32(forwardTable.Table[i].dwForwardIfIndex).Equals(interfaceIndex))
+                if (forwardTable.Table[i].dwForwardIfIndex.Equals(uIndex))
                 {
                     filtered.Add(forwardTable.Table[i]);
                 }
