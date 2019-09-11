@@ -28,8 +28,8 @@ namespace NetworkRoute
                     na.Description = adapter.Description;
                     na.MACAddress = adapter.GetPhysicalAddress().ToString();
                     na.InterfaceIndex = ip4Properties.Index;
-                    na.PrimaryIpAddress = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork).First().Address;
-                    na.SubnetMask = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork).First().IPv4Mask;
+                    na.PrimaryIpAddress = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork)?.First()?.Address;
+                    na.SubnetMask = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork)?.First()?.IPv4Mask;
                     if (properties.GatewayAddresses.Count > 0)
                     {
                         na.PrimaryGateway = null;
@@ -46,9 +46,9 @@ namespace NetworkRoute
                     {
                         //if the gateways on the Network adaptor properties is null, then get it from the routing table, especially the case for VPN routers
                         List<Ip4RouteEntry> routeTable = Ip4RouteTable.GetRouteTable();
-                        if (routeTable.Where(i => i.InterfaceIndex == na.InterfaceIndex).Count() > 0)
+                        if (routeTable.Where(i => i.InterfaceIndex == na.InterfaceIndex)?.Count() > 0)
                         {
-                            na.PrimaryGateway = routeTable.Where(i => i.InterfaceIndex == na.InterfaceIndex).First().GatewayIP;
+                            na.PrimaryGateway = routeTable.Where(i => i.InterfaceIndex == na.InterfaceIndex)?.First()?.GatewayIP;
 
                         }
                     }
@@ -86,8 +86,8 @@ namespace NetworkRoute
                 na.Description = adapter.Description;
                 na.MACAddress = adapter.GetPhysicalAddress().ToString();
                 na.InterfaceIndex = ip4Properties != null ? ip4Properties.Index : 0;
-                na.PrimaryIpAddress = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork).First().Address;
-                na.SubnetMask = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork).First().IPv4Mask;
+                na.PrimaryIpAddress = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork)?.First()?.Address;
+                na.SubnetMask = properties.UnicastAddresses.Where(i => i.Address.AddressFamily == AddressFamily.InterNetwork)?.First()?.IPv4Mask;
                 if (properties.GatewayAddresses.Count > 0)
                 {
                     na.PrimaryGateway = null;
@@ -106,7 +106,7 @@ namespace NetworkRoute
                     List<Ip4RouteEntry> routeTable = Ip4RouteTable.GetRouteTable();
                     if (routeTable.Where(i => i.InterfaceIndex == na.InterfaceIndex).Count() > 0)
                     {
-                        na.PrimaryGateway = routeTable.Where(i => i.InterfaceIndex == na.InterfaceIndex).First().GatewayIP;
+                        na.PrimaryGateway = routeTable.Where(i => i.InterfaceIndex == na.InterfaceIndex)?.First()?.GatewayIP;
                         
                     }
                 }
@@ -118,6 +118,8 @@ namespace NetworkRoute
             }
             return naList;
         }
+
+
 
         public static void PrintAllNetworkInterface()
         {
