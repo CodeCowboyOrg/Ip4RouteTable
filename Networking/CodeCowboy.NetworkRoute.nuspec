@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <license type="expression">MIT</license>
+    <!--license type="file">license.txt</license-->
+    <!--licenseUrl>https://github.com/CodeCowboyOrg/Ip4RouteTable</licenseUrl-->
+    <projectUrl>https://github.com/CodeCowboyOrg/Ip4RouteTable</projectUrl>
+    <!-->iconUrl></iconUrl-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Win32 Ip4 Routing Table Helper</description>
+    <releaseNotes>Initial Release</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>Win32 route print ip4 routing network routing windows network routing routing table ip4 internet routing route add route delete route change</tags>
+  </metadata>
+</package>

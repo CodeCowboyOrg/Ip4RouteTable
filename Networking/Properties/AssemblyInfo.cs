@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("CodeCowboy.NetworkRoute")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Network routing table interactions")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("www.CodeCowboy.org")]
 [assembly: AssemblyProduct("CodeCowboy.NetworkRoute")]
