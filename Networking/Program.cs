@@ -7,7 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace NetworkRoute
+namespace CodeCowboy.NetworkRoute
 {
     class Program
     {

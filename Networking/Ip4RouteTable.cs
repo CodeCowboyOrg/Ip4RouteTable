@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Net;
 using System.Collections.Generic;
 
-namespace NetworkRoute
+namespace CodeCowboy.NetworkRoute
 {
     public class Ip4RouteTable
     {
