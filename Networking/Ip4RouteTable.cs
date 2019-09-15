@@ -13,12 +13,12 @@ namespace CodeCowboy.NetworkRoute
         {
             var fwdTable = IntPtr.Zero;
             int size = 0;
-            var result = Native.GetIpForwardTable(fwdTable, ref size, true);
+            var result = NativeMethods.GetIpForwardTable(fwdTable, ref size, true);
             fwdTable = Marshal.AllocHGlobal(size);
 
-            result = Native.GetIpForwardTable(fwdTable, ref size, true);
+            result = NativeMethods.GetIpForwardTable(fwdTable, ref size, true);
 
-            var forwardTable = Native.ReadIPForwardTable(fwdTable);
+            var forwardTable = NativeMethods.ReadIPForwardTable(fwdTable);
 
             Marshal.FreeHGlobal(fwdTable);
 
@@ -60,12 +60,12 @@ namespace CodeCowboy.NetworkRoute
         {
             var fwdTable = IntPtr.Zero;
             int size = 0;
-            var result = Native.GetIpForwardTable(fwdTable, ref size, true);
+            var result = NativeMethods.GetIpForwardTable(fwdTable, ref size, true);
             fwdTable = Marshal.AllocHGlobal(size);
 
-            result = Native.GetIpForwardTable(fwdTable, ref size, true);
+            result = NativeMethods.GetIpForwardTable(fwdTable, ref size, true);
 
-            var forwardTable = Native.ReadIPForwardTable(fwdTable);
+            var forwardTable = NativeMethods.ReadIPForwardTable(fwdTable);
 
             Marshal.FreeHGlobal(fwdTable);
 
@@ -123,7 +123,7 @@ namespace CodeCowboy.NetworkRoute
         public static void CreateRoute(Ip4RouteEntry routeEntry)
         {
 
-            var route = new Native.MIB_IPFORWARDROW
+            var route = new NativeMethods.MIB_IPFORWARDROW
             {
                 dwForwardDest = BitConverter.ToUInt32(IPAddress.Parse(routeEntry.DestinationIP.ToString()).GetAddressBytes(), 0),
                 dwForwardMask = BitConverter.ToUInt32(IPAddress.Parse(routeEntry.SubnetMask.ToString()).GetAddressBytes(), 0),
@@ -135,11 +135,11 @@ namespace CodeCowboy.NetworkRoute
                 dwForwardIfIndex = Convert.ToUInt32(routeEntry.InterfaceIndex)
             };
 
-            IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(Native.MIB_IPFORWARDROW)));
+            IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(NativeMethods.MIB_IPFORWARDROW)));
             try
             {
                 Marshal.StructureToPtr(route, ptr, false);
-                var status = Native.CreateIpForwardEntry(ptr);
+                var status = NativeMethods.CreateIpForwardEntry(ptr);
             }
             finally
             {
@@ -151,7 +151,7 @@ namespace CodeCowboy.NetworkRoute
         public static void CreateRoute(string destination, string mask, int interfaceIndex, int metric)
         {
             NetworkAdaptor adaptor = NicInterface.GetNetworkAdaptor(interfaceIndex);
-            var route = new Native.MIB_IPFORWARDROW
+            var route = new NativeMethods.MIB_IPFORWARDROW
             {
                 dwForwardDest = BitConverter.ToUInt32(IPAddress.Parse(destination).GetAddressBytes(), 0),
                 dwForwardMask = BitConverter.ToUInt32(IPAddress.Parse(mask).GetAddressBytes(), 0),
@@ -163,11 +163,11 @@ namespace CodeCowboy.NetworkRoute
                 dwForwardIfIndex = Convert.ToUInt32(interfaceIndex)
             };
 
-            IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(Native.MIB_IPFORWARDROW)));
+            IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(NativeMethods.MIB_IPFORWARDROW)));
             try
             {
                 Marshal.StructureToPtr(route, ptr, false);
-                var status = Native.CreateIpForwardEntry(ptr);
+                var status = NativeMethods.CreateIpForwardEntry(ptr);
             }
             finally
             {
@@ -179,7 +179,7 @@ namespace CodeCowboy.NetworkRoute
         public static void DeleteRoute(Ip4RouteEntry routeEntry)
         {
 
-            var route = new Native.MIB_IPFORWARDROW
+            var route = new NativeMethods.MIB_IPFORWARDROW
             {
                 dwForwardDest = BitConverter.ToUInt32(IPAddress.Parse(routeEntry.DestinationIP.ToString()).GetAddressBytes(), 0),
                 dwForwardMask = BitConverter.ToUInt32(IPAddress.Parse(routeEntry.SubnetMask.ToString()).GetAddressBytes(), 0),
@@ -191,11 +191,11 @@ namespace CodeCowboy.NetworkRoute
                 dwForwardIfIndex = Convert.ToUInt32(routeEntry.InterfaceIndex)
             };
 
-            IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(Native.MIB_IPFORWARDROW)));
+            IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(NativeMethods.MIB_IPFORWARDROW)));
             try
             {
                 Marshal.StructureToPtr(route, ptr, false);
-                var status = Native.DeleteIpForwardEntry(ptr);
+                var status = NativeMethods.DeleteIpForwardEntry(ptr);
             }
             finally
             {
@@ -234,18 +234,18 @@ namespace CodeCowboy.NetworkRoute
 
             var fwdTable = IntPtr.Zero;
             int size = 0;
-            var result = Native.GetIpForwardTable(fwdTable, ref size, true);
+            var result = NativeMethods.GetIpForwardTable(fwdTable, ref size, true);
             fwdTable = Marshal.AllocHGlobal(size);
 
-            result = Native.GetIpForwardTable(fwdTable, ref size, true);
+            result = NativeMethods.GetIpForwardTable(fwdTable, ref size, true);
 
-            var forwardTable = Native.ReadIPForwardTable(fwdTable);
+            var forwardTable = NativeMethods.ReadIPForwardTable(fwdTable);
 
             Marshal.FreeHGlobal(fwdTable);
 
 
             uint uIndex = Convert.ToUInt32(interfaceIndex);
-            List<Native.MIB_IPFORWARDROW> filtered = new List<Native.MIB_IPFORWARDROW>();
+            List<NativeMethods.MIB_IPFORWARDROW> filtered = new List<NativeMethods.MIB_IPFORWARDROW>();
             for (int i = 0; i < forwardTable.Table.Length; ++i)
             {
                 if (forwardTable.Table[i].dwForwardIfIndex.Equals(uIndex))
@@ -254,13 +254,13 @@ namespace CodeCowboy.NetworkRoute
                 }
             }
 
-            IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(Native.MIB_IPFORWARDROW)));
+            IntPtr ptr = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(NativeMethods.MIB_IPFORWARDROW)));
             try
             {
-                foreach (Native.MIB_IPFORWARDROW routeEntry in filtered)
+                foreach (NativeMethods.MIB_IPFORWARDROW routeEntry in filtered)
                 {
                     Marshal.StructureToPtr(routeEntry, ptr, false);
-                    var status = Native.DeleteIpForwardEntry(ptr);
+                    var status = NativeMethods.DeleteIpForwardEntry(ptr);
                 }
             }
             finally
@@ -284,7 +284,7 @@ namespace CodeCowboy.NetworkRoute
         public int Metric { get; set; }
     }
 
-    internal static class Native
+    internal static class NativeMethods
     {
         //https://docs.microsoft.com/en-us/windows/win32/iphlp/managing-routing
         //https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-rrasm/5dca234b-bea4-4e67-958e-5459a32a7b71
