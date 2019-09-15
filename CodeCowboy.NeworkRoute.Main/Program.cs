@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Net.NetworkInformation;
-using System.Net;
-using System.Net.Sockets;
 using System.Threading.Tasks;
+using CodeCowboy.NetworkRoute;
 
-namespace CodeCowboy.NetworkRoute
+namespace CodeCowboy.NeworkRoute.Main
 {
     class Program
     {
@@ -19,7 +17,7 @@ namespace CodeCowboy.NetworkRoute
                 int interfaceIndex = 0;
                 if (args.Count() > 0) interfaceIndex = Int32.Parse(args[0]);
 
- 
+
                 //Print all the Network adaptors
                 NicInterface.PrintAllNetworkInterface();
                 //Print the Routing Table
@@ -54,8 +52,5 @@ namespace CodeCowboy.NetworkRoute
                 throw;
             }
         }
-         
     }
-
-
 }
