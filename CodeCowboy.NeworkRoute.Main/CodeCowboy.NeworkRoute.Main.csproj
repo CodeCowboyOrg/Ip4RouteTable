@@ -51,7 +51,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Networking\CodeCowboy.NetworkRoute.csproj">
+    <ProjectReference Include="..\CodeCowboy.NetworkRoute\CodeCowboy.NetworkRoute.csproj">
       <Project>{58b046cc-9cb1-4b50-805e-31ca6c38aa46}</Project>
       <Name>CodeCowboy.NetworkRoute</Name>
     </ProjectReference>
